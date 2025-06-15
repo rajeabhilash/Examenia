@@ -3,13 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
-engine = create_engine('sqlite:///./database.db', echo=True)
-
+engine = create_engine('sqlite:///database.db', echo=True)
 Base = declarative_base()
+
 
 class Challenge(Base):
     __tablename__ = 'challenges'
-    
+
     id = Column(Integer, primary_key=True)
     difficulty = Column(String, nullable=False)
     date_created = Column(DateTime, default=datetime.now)
@@ -17,7 +17,8 @@ class Challenge(Base):
     title = Column(String, nullable=False)
     options = Column(String, nullable=False)
     correct_answer_id = Column(Integer, nullable=False)
-    explanation = Column(String, nullable=True)
+    explanation = Column(String, nullable=False)
+
 
 class ChallengeQuota(Base):
     __tablename__ = 'challenge_quotas'
@@ -29,6 +30,7 @@ class ChallengeQuota(Base):
 
 
 Base.metadata.create_all(engine)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_db():
